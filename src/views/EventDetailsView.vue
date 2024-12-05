@@ -9,9 +9,17 @@ const props = defineProps({
 })
 
 const event = ref(null)
+const isLoaded = ref(null)
 
 onMounted(() => {
-  EventService.getEventId(props.id).then((res) => (event.value = res.data))
+  EventService.getEventId(props.id)
+    .then((res) => {
+      event.value = res.data
+      isLoaded.value = true
+    })
+    .catch(() => {
+      isLoaded.value = true
+    })
 })
 </script>
 
@@ -21,4 +29,5 @@ onMounted(() => {
     <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
     <p>{{ event.description }}</p>
   </div>
+  <div v-if="!event && isLoaded"><h1>No event found</h1></div>
 </template>

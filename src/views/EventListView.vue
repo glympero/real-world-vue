@@ -7,7 +7,6 @@ const events = ref(null)
 onMounted(() => {
   EventService.getEvents()
     .then((res) => {
-      console.log(res.data)
       events.value = res.data
     })
     .catch((err) => {
